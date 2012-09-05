@@ -29,11 +29,10 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             var formatter = new ServiceStackTextFormatter();
             var value = GetTestObject();
 
-            var contentHeader = new StringContent(string.Empty).Headers;
-            contentHeader.Clear();
+            var content = new StringContent(string.Empty);
             var memoryStream = new MemoryStream();
 
-            var resultTask = formatter.WriteToStreamAsync(typeof(RootClass), value, memoryStream, contentHeader, transportContext: null);
+            var resultTask = formatter.WriteToStreamAsync(typeof(RootClass), value, memoryStream, content, transportContext: null);
 
             resultTask.Wait();
 
@@ -53,11 +52,10 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             var formatter = new ServiceStackTextFormatter(JsonDateHandler.TimestampOffset);
             var value = GetTestObject();
 
-            var contentHeader = new StringContent(string.Empty).Headers;
-            contentHeader.Clear();
+            var content = new StringContent(string.Empty);
             var memoryStream = new MemoryStream();
 
-            var resultTask = formatter.WriteToStreamAsync(typeof(RootClass), value, memoryStream, contentHeader, transportContext: null);
+            var resultTask = formatter.WriteToStreamAsync(typeof(RootClass), value, memoryStream, content, transportContext: null);
 
             resultTask.Wait();
 
@@ -83,10 +81,9 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             JsConfig.Reset();
             var memoryStream = new MemoryStream(data);
 
-            var contentHeader = new StringContent(string.Empty).Headers;
-            contentHeader.Clear();
+            var content = new StringContent(string.Empty);
 
-            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, contentHeader, null);
+            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, content, null);
 
             resultTask.Wait();
 
@@ -116,10 +113,9 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
 
             var memoryStream = new MemoryStream(data);
 
-            var contentHeader = new StringContent(string.Empty).Headers;
-            contentHeader.Clear();
+            var content = new StringContent(string.Empty);
 
-            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, contentHeader, null);
+            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, content, null);
 
             resultTask.Wait();
 

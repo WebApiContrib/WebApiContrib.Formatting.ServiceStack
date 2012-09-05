@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
@@ -28,7 +29,7 @@ namespace WebApiContrib.Formatting
             //TODO: Add XHR Header mapping. Will add this after a discussion with aspnetwebstack team: See: http://aspnetwebstack.codeplex.com/discussions/350758
         }
 
-    	public override Task<object> ReadFromStreamAsync(Type type, System.IO.Stream stream, HttpContentHeaders contentHeaders, IFormatterLogger formatterLogger)
+    	public override Task<object> ReadFromStreamAsync(Type type, System.IO.Stream stream, HttpContent content, IFormatterLogger formatterLogger)
         {
             return Task.Factory.StartNew(() =>
             {
@@ -39,7 +40,7 @@ namespace WebApiContrib.Formatting
             });
         }
 
-    	public override Task WriteToStreamAsync(Type type, object value, System.IO.Stream stream, HttpContentHeaders contentHeaders, TransportContext transportContext)
+    	public override Task WriteToStreamAsync(Type type, object value, System.IO.Stream stream, HttpContent content, TransportContext transportContext)
         {
             return Task.Factory.StartNew(() =>
             {
