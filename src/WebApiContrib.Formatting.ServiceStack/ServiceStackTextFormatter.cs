@@ -35,7 +35,6 @@ namespace WebApiContrib.Formatting
             {
                 JsConfig.DateHandler = _dateHandler;
                 var result = JsonSerializer.DeserializeFromStream(type, stream);
-                // JsConfig.Reset();
                 return result;
             });
         }
@@ -46,7 +45,6 @@ namespace WebApiContrib.Formatting
             {
                 JsConfig.DateHandler = _dateHandler;
                 JsonSerializer.SerializeToStream(value, type, stream);
-                // JsConfig.Reset();
             });
         }
 

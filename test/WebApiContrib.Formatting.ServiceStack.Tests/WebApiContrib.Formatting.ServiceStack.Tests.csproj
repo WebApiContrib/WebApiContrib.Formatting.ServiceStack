@@ -39,15 +39,16 @@
     <Reference Include="NodaTime">
       <HintPath>..\..\packages\NodaTime.1.2.0\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime.Serialization.ServiceStackText">
+    <Reference Include="NodaTime.Serialization.ServiceStackText, Version=1.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NodaTime.Serialization.ServiceStackText.1.2.8\lib\net35-Client\NodaTime.Serialization.ServiceStackText.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text, Version=3.9.44.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ServiceStack.Text, Version=3.9.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Text.3.9.44\lib\net35\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Text.3.9.7\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="Should">
       <HintPath>..\..\packages\Should.1.1.12.0\lib\Should.dll</HintPath>
@@ -68,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NodaTimeFormattingTests.cs" />
+    <Compile Include="CustomSerializerFormattingTests.cs" />
     <Compile Include="ServiceStackTextFormatterTests.cs" />
   </ItemGroup>
   <ItemGroup>
