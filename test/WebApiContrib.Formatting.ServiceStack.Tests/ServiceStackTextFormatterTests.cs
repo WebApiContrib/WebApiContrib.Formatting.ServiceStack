@@ -11,6 +11,8 @@ using WebApiContrib.Formatting;
 
 namespace WebApiContrib.Formatting.ServiceStack.Tests
 {
+    using global::ServiceStack;
+
     [TestFixture]
     public class ServiceStackTextFormatterTests
     {
@@ -40,7 +42,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             string serializedString = new StreamReader(memoryStream).ReadToEnd();
 
             // Formatter uses ISO8601 dates by default
-            JsConfig.DateHandler = JsonDateHandler.ISO8601;
+            JsConfig.DateHandler = DateHandler.ISO8601;
             var expextedResult = value.ToJson();
             JsConfig.Reset();
             serializedString.ShouldEqual(expextedResult);
@@ -49,7 +51,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
         [Test]
         public void Should_write_serialized_object_to_stream_using_date_handler()
         {
-            var formatter = new ServiceStackTextFormatter(JsonDateHandler.TimestampOffset);
+            var formatter = new ServiceStackTextFormatter(DateHandler.TimestampOffset);
             var value = GetTestObject();
 
             var content = new StringContent(string.Empty);
@@ -62,7 +64,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             memoryStream.Position = 0;
             string serializedString = new StreamReader(memoryStream).ReadToEnd();
 
-            JsConfig.DateHandler = JsonDateHandler.TimestampOffset;
+            JsConfig.DateHandler = DateHandler.TimestampOffset;
             var expected = value.ToJson();
             JsConfig.Reset();
             serializedString.ShouldEqual(expected);
@@ -76,7 +78,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             var utf8Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
             //Media Type Formatter uses ISO8601 date formatting by default;
-            JsConfig.DateHandler = JsonDateHandler.ISO8601;
+            JsConfig.DateHandler = DateHandler.ISO8601;
             byte[] data = utf8Encoding.GetBytes(value.ToJson());
             JsConfig.Reset();
             var memoryStream = new MemoryStream(data);
@@ -103,11 +105,11 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
         [Test]
         public void Should_read_serialized_object_from_stream_using_date_handler()
         {
-            var formatter = new ServiceStackTextFormatter(JsonDateHandler.DCJSCompatible);
+            var formatter = new ServiceStackTextFormatter(DateHandler.DCJSCompatible);
             var value = GetTestObject();
             var utf8Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
-            JsConfig.DateHandler = JsonDateHandler.DCJSCompatible;
+            JsConfig.DateHandler = DateHandler.DCJSCompatible;
             byte[] data = utf8Encoding.GetBytes(value.ToJson());
             JsConfig.Reset();
 
