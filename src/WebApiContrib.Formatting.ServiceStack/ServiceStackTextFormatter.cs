@@ -33,9 +33,13 @@ namespace WebApiContrib.Formatting
         {
             return Task.Factory.StartNew(() =>
             {
-                JsConfig.DateHandler = _dateHandler;
-                var result = JsonSerializer.DeserializeFromStream(type, stream);
-                return result;
+                using (var scope = JsConfig.BeginScope())
+                {
+                    scope.DateHandler = _dateHandler;
+                    JsConfig.DateHandler = _dateHandler;
+                    var result = JsonSerializer.DeserializeFromStream(type, stream);
+                    return result;    
+                }
             });
         }
 
@@ -43,8 +47,11 @@ namespace WebApiContrib.Formatting
         {
             return Task.Factory.StartNew(() =>
             {
-                JsConfig.DateHandler = _dateHandler;
-                JsonSerializer.SerializeToStream(value, type, stream);
+                using (var scope = JsConfig.BeginScope())
+                {
+                    scope.DateHandler = _dateHandler;
+                    JsonSerializer.SerializeToStream(value, type, stream);
+                }
             });
         }
 

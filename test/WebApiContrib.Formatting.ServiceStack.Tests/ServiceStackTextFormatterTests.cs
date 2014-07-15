@@ -42,10 +42,12 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             string serializedString = new StreamReader(memoryStream).ReadToEnd();
 
             // Formatter uses ISO8601 dates by default
-            JsConfig.DateHandler = DateHandler.ISO8601;
-            var expextedResult = value.ToJson();
-            JsConfig.Reset();
-            serializedString.ShouldEqual(expextedResult);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = DateHandler.ISO8601;
+                var expextedResult = value.ToJson();
+                serializedString.ShouldEqual(expextedResult);    
+            }
         }
 
         [Test]
@@ -64,10 +66,12 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             memoryStream.Position = 0;
             string serializedString = new StreamReader(memoryStream).ReadToEnd();
 
-            JsConfig.DateHandler = DateHandler.TimestampOffset;
-            var expected = value.ToJson();
-            JsConfig.Reset();
-            serializedString.ShouldEqual(expected);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = DateHandler.TimestampOffset;
+                var expected = value.ToJson();
+                serializedString.ShouldEqual(expected);
+            }
         }
 
         [Test]
