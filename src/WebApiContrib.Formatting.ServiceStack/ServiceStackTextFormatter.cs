@@ -12,9 +12,9 @@ namespace WebApiContrib.Formatting
     public class ServiceStackTextFormatter : MediaTypeFormatter
     {
         //Uses ISO8601 date by default
-        private JsonDateHandler _dateHandler = JsonDateHandler.ISO8601;
+        private DateHandler _dateHandler = DateHandler.ISO8601;
 
-        public ServiceStackTextFormatter(JsonDateHandler dateHandler)
+        public ServiceStackTextFormatter(DateHandler dateHandler)
             : this()
         {
             _dateHandler = dateHandler;
@@ -33,10 +33,13 @@ namespace WebApiContrib.Formatting
         {
             return Task.Factory.StartNew(() =>
             {
-                JsConfig.DateHandler = _dateHandler;
-                var result = JsonSerializer.DeserializeFromStream(type, stream);
-                JsConfig.Reset();
-                return result;
+                using (var scope = JsConfig.BeginScope())
+                {
+                    scope.DateHandler = _dateHandler;
+                    JsConfig.DateHandler = _dateHandler;
+                    var result = JsonSerializer.DeserializeFromStream(type, stream);
+                    return result;    
+                }
             });
         }
 
@@ -44,9 +47,11 @@ namespace WebApiContrib.Formatting
         {
             return Task.Factory.StartNew(() =>
             {
-                JsConfig.DateHandler = _dateHandler;
-                JsonSerializer.SerializeToStream(value, type, stream);
-                JsConfig.Reset();
+                using (var scope = JsConfig.BeginScope())
+                {
+                    scope.DateHandler = _dateHandler;
+                    JsonSerializer.SerializeToStream(value, type, stream);
+                }
             });
         }
 

@@ -33,3 +33,4 @@ docs/
 nuget/
 packages/
 *.nupkg
+Visual Studio*/
