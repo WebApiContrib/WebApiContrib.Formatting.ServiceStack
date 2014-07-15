@@ -44,7 +44,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             // Formatter uses ISO8601 dates by default
             using (var scope = JsConfig.BeginScope())
             {
-                scope.DateHandler = DateHandler.ISO8601;
+                scope.DateHandler = JsonDateHandler.ISO8601;
                 var expextedResult = value.ToJson();
                 serializedString.ShouldEqual(expextedResult);    
             }
@@ -53,7 +53,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
         [Test]
         public void Should_write_serialized_object_to_stream_using_date_handler()
         {
-            var formatter = new ServiceStackTextFormatter(DateHandler.TimestampOffset);
+            var formatter = new ServiceStackTextFormatter(JsonDateHandler.TimestampOffset);
             var value = GetTestObject();
 
             var content = new StringContent(string.Empty);
@@ -68,7 +68,7 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
 
             using (var scope = JsConfig.BeginScope())
             {
-                scope.DateHandler = DateHandler.TimestampOffset;
+                scope.DateHandler = JsonDateHandler.TimestampOffset;
                 var expected = value.ToJson();
                 serializedString.ShouldEqual(expected);
             }
@@ -82,60 +82,65 @@ namespace WebApiContrib.Formatting.ServiceStack.Tests
             var utf8Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
             //Media Type Formatter uses ISO8601 date formatting by default;
-            JsConfig.DateHandler = DateHandler.ISO8601;
-            byte[] data = utf8Encoding.GetBytes(value.ToJson());
-            JsConfig.Reset();
-            var memoryStream = new MemoryStream(data);
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = JsonDateHandler.ISO8601;
+                byte[] data = utf8Encoding.GetBytes(value.ToJson());
+                var memoryStream = new MemoryStream(data);
 
-            var content = new StringContent(string.Empty);
+                var content = new StringContent(string.Empty);
 
-            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, content, null);
+                var resultTask = formatter.ReadFromStreamAsync(typeof (RootClass), memoryStream, content, null);
 
-            resultTask.Wait();
+                resultTask.Wait();
 
-            resultTask.Result.ShouldBeType<RootClass>();
+                resultTask.Result.ShouldBeType<RootClass>();
 
-            var result = (RootClass)resultTask.Result;
+                var result = (RootClass) resultTask.Result;
 
-            result.StringProperty.ShouldEqual(value.StringProperty);
-            result.DateProperty.ShouldEqual(value.DateProperty);
-            result.Child.BooleanProperty.ShouldEqual(value.Child.BooleanProperty);
-            result.Child.DecimalProperty.ShouldEqual(value.Child.DecimalProperty);
-            result.Child.DoubleProperty.ShouldEqual(value.Child.DoubleProperty);
-            result.Child.IntegerProperty.ShouldEqual(value.Child.IntegerProperty);
-            result.Child.StringProperty.ShouldEqual(value.Child.StringProperty);
+                result.StringProperty.ShouldEqual(value.StringProperty);
+                result.DateProperty.ShouldEqual(value.DateProperty);
+                result.Child.BooleanProperty.ShouldEqual(value.Child.BooleanProperty);
+                result.Child.DecimalProperty.ShouldEqual(value.Child.DecimalProperty);
+                result.Child.DoubleProperty.ShouldEqual(value.Child.DoubleProperty);
+                result.Child.IntegerProperty.ShouldEqual(value.Child.IntegerProperty);
+                result.Child.StringProperty.ShouldEqual(value.Child.StringProperty);
+            }
         }
 
         [Test]
         public void Should_read_serialized_object_from_stream_using_date_handler()
         {
-            var formatter = new ServiceStackTextFormatter(DateHandler.DCJSCompatible);
+            var formatter = new ServiceStackTextFormatter(JsonDateHandler.DCJSCompatible);
             var value = GetTestObject();
             var utf8Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
-            JsConfig.DateHandler = DateHandler.DCJSCompatible;
-            byte[] data = utf8Encoding.GetBytes(value.ToJson());
-            JsConfig.Reset();
+            using (var scope = JsConfig.BeginScope())
+            {
+                scope.DateHandler = JsonDateHandler.DCJSCompatible;
+                byte[] data = utf8Encoding.GetBytes(value.ToJson());
 
-            var memoryStream = new MemoryStream(data);
+                var memoryStream = new MemoryStream(data);
 
-            var content = new StringContent(string.Empty);
+                var content = new StringContent(string.Empty);
 
-            var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, content, null);
+                var resultTask = formatter.ReadFromStreamAsync(typeof(RootClass), memoryStream, content, null);
 
-            resultTask.Wait();
+                resultTask.Wait();
 
-            resultTask.Result.ShouldBeType<RootClass>();
+                resultTask.Result.ShouldBeType<RootClass>();
 
-            var result = (RootClass)resultTask.Result;
+                var result = (RootClass)resultTask.Result;
 
-            result.StringProperty.ShouldEqual(value.StringProperty);
-            result.DateProperty.ShouldEqual(value.DateProperty);
-            result.Child.BooleanProperty.ShouldEqual(value.Child.BooleanProperty);
-            result.Child.DecimalProperty.ShouldEqual(value.Child.DecimalProperty);
-            result.Child.DoubleProperty.ShouldEqual(value.Child.DoubleProperty);
-            result.Child.IntegerProperty.ShouldEqual(value.Child.IntegerProperty);
-            result.Child.StringProperty.ShouldEqual(value.Child.StringProperty);
+                result.StringProperty.ShouldEqual(value.StringProperty);
+                result.DateProperty.ShouldEqual(value.DateProperty);
+                result.Child.BooleanProperty.ShouldEqual(value.Child.BooleanProperty);
+                result.Child.DecimalProperty.ShouldEqual(value.Child.DecimalProperty);
+                result.Child.DoubleProperty.ShouldEqual(value.Child.DoubleProperty);
+                result.Child.IntegerProperty.ShouldEqual(value.Child.IntegerProperty);
+                result.Child.StringProperty.ShouldEqual(value.Child.StringProperty);
+            }
+            
         }
 
         private static RootClass GetTestObject()

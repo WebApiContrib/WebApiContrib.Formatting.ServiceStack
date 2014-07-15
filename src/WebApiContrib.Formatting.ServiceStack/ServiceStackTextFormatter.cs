@@ -12,9 +12,9 @@ namespace WebApiContrib.Formatting
     public class ServiceStackTextFormatter : MediaTypeFormatter
     {
         //Uses ISO8601 date by default
-        private DateHandler _dateHandler = DateHandler.ISO8601;
+        private JsonDateHandler _dateHandler = JsonDateHandler.ISO8601;
 
-        public ServiceStackTextFormatter(DateHandler dateHandler)
+        public ServiceStackTextFormatter(JsonDateHandler dateHandler)
             : this()
         {
             _dateHandler = dateHandler;
