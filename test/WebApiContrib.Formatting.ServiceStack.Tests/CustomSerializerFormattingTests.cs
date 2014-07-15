@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using NUnit.Framework;
-using NodaTime;
-using NodaTime.Serialization.ServiceStackText;
 using ServiceStack.Text;
 using Should;
 
