@@ -12,5 +12,8 @@
     <licenseUrl>https://raw.github.com/WebApiContrib/WebApiContrib.Formatting.ServiceStack/master/LICENSE.txt</licenseUrl>
     <copyright>Copyright © WebApiContrib 2012 - 2013</copyright>
     <tags>webapi webapicontrib servicestack</tags>
+    <dependencies>
+        <dependency id="ServiceStack.Text" version="[3.9.71,4.0)" />
+    </dependencies>
   </metadata>
 </package>
